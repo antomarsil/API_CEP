@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Consulta de CEP e estimativa de frete com base na distância da Uninassau.">
+  <title>CEP & Frete | Uninassau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Uninassau">
+      <span class="brand-mark">U</span>
+      <span>Uninassau</span>
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="#calcular">Calcular frete</a>
+      <a href="#como-funciona">Como funciona</a>
+    </nav>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Services de entrega</span>
+        <h1>Seu CEP, <span>mais próximo.</span></h1>
+        <p>Consulte o endereço, calcule a distância da Uninassau e receba uma estimativa de frete para o Uber Moto.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#calcular">Calcular frete</a>
+          <a class="button button-ghost" href="#como-funciona">Saiba como funciona</a>
+        </div>
+        <div class="trust-row">
+          <span><i>✓</i> CEP validado</span>
+          <span><i>✓</i> Distância geográfica</span>
+          <span><i>✓</i> Estimativa atualizada</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="route-card">
+          <div class="route-top">
+            <span class="route-icon">⌖</span>
+            <span>Rota estimada</span>
+          </div>
+          <div class="route-line"><span></span></div>
+          <div class="route-points">
+            <div><i class="point-origin"></i><strong>Uninassau</strong><small>Campus</small></div>
+            <div><i class="point-destination"></i><strong>Seu endereço</strong><small>CEP informado</small></div>
+          </div>
+          <div class="route-price"><small>Valor estimado</small><strong id="hero-price">R$ 0,00</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="calculator-section" id="calcular">
+      <div class="section-heading">
+        <span class="eyebrow">Calculadora</span>
+        <h2>Descubra o valor do frete</h2>
+        <p>Informe o CEP de entrega e ajuste a tarifa quando necessário.</p>
+      </div>
+
+      <div class="calculator-grid">
+        <form class="card form-card" id="frete-form">
+          <div class="card-title-row">
+            <div>
+              <span class="step-label">Passo 1</span>
+              <h3>Consulte o CEP</h3>
+            </div>
+            <span class="api-badge">ViaCEP</span>
+          </div>
+          <label for="cep">CEP de entrega</label>
+          <div class="cep-control">
+            <input id="cep" name="cep" type="text" inputmode="numeric" maxlength="9" placeholder="Ex.: 57020-000" autocomplete="postal-code" required>
+            <button type="button" id="buscar-cep" class="button button-primary">Buscar</button>
+          </div>
+          <p class="helper" id="cep-status" role="status">Digite um CEP válido para consultar o endereço.</p>
+
+          <div class="address-result" id="address-result" hidden>
+            <span class="result-icon">⌖</span>
+            <div>
+              <small>Endereço localizado</small>
+              <strong id="address-name"></strong>
+              <p id="address-details"></p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="card-title-row">
+            <div>
+              <span class="step-label">Passo 2</span>
+              <h3>Configure a estimativa</h3>
+            </div>
+          </div>
+          <div class="settings-grid">
+            <div>
+              <label for="base-fare">Valor base</label>
+              <div class="input-prefix"><span>R$</span><input id="base-fare" type="number" min="0" step="0.01" value="6.90"></div>
+            </div>
+            <div>
+              <label for="fare-per-km">Valor por km</label>
+              <div class="input-prefix"><span>R$</span><input id="fare-per-km" type="number" min="0" step="0.01" value="4.20"></div>
+            </div>
+          </div>
+          <button type="submit" class="button button-primary button-wide">Calcular estimativa</button>
+        </form>
+
+        <aside class="card result-card">
+          <div class="result-header">
+            <span class="result-icon-large">↗</span>
+            <div><small>Resultado</small><h3>Frete estimado</h3></div>
+          </div>
+          <div class="price-display">
+            <span>Valor aproximado</span>
+            <strong id="calculated-price">R$ 0,00</strong>
+            <small id="distance-summary">Aguarde a consulta do CEP</small>
+          </div>
+          <div class="result-breakdown">
+            <div><span>Distância</span><strong id="distance-value">—</strong></div>
+            <div><span>Taxa base</span><strong id="base-value">R$ 0,00</strong></div>
+            <div><span>Valor por km</span><strong id="rate-value">R$ 0,00</strong></div>
+          </div>
+          <div class="notice">
+            <span>!</span>
+            <p>Esta é uma estimativa baseada na distância geográfica. O valor final pode variar conforme a rota, o horário e as condições do Uber Moto.</p>
+          </div>
+          <p class="source-note">Coordenadas: <a href="https://www.openstreetmap.org" target="_blank" rel="noreferrer">OpenStreetMap</a> · CEP: <a href="https://viacep.com.br" target="_blank" rel="noreferrer">ViaCEP</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="how-section" id="como-funciona">
+      <div class="section-heading centered">
+        <span class="eyebrow">Como funciona</span>
+        <h2>Três passos simples</h2>
+      </div>
+      <div class="steps-grid">
+        <article><span>01</span><h3>Consultar CEP</h3><p>O ViaCEP valida o código e retorna o endereço e as coordenadas.</p></article>
+        <article><span>02</span><h3>Calcular distância</h3><p>Usamos a fórmula de Haversine para encontrar a distância aérea da Uninassau.</p></article>
+        <article><span>03</span><h3>Estimar o frete</h3><p>O valor é calculado com uma taxa base e um custo por quilômetro configurável.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand"><span class="brand-mark">U</span><span>Uninassau</span></div>
+    <p>Desenvolvido para facilitar a estimativa de entrega.</p>
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

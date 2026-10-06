@@ -1,0 +1,11 @@
+{
+  "name": "cep-frete-uninassau",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Consulta de CEP, cálculo de distância e estimativa de frete proposta pela Uninassau",
+  "type": "module",
+  "scripts": {
+    "start": "python -m http.server 4173",
+    "test": "node --test"
+  }
+}
